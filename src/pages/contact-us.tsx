@@ -4,5 +4,5 @@ export default function ContactUs() {
 
 const obj = {
   da: 'da',
-  das:' das',
+  das: 'das'
 }
