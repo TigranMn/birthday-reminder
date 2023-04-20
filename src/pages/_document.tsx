@@ -8,6 +8,9 @@ export default function Document() {
             <body>
                 <Main />
                 <NextScript />
+                <script
+                    src='https://cdn.linearicons.com/free/1.0.0/svgembedder.min.js'
+                    async></script>
             </body>
         </Html>
     )

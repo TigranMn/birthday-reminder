@@ -3,16 +3,33 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: Poppins;
-  src: url('../../public/fonts/Poppins-Regular.ttf');
+    font-family: Poppins;
+    src: url('../../public/fonts/Poppins-Regular.ttf');
 }
 
 @layer base {
-  body {
-    font-family: Poppins, sans-serif;
-    font-size: 16px;
-    line-height: 26px;
-    font-weight: 400, 600;
-    letter-spacing: 0;
-  }
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Poppins, sans-serif;
+        font-size: 16px;
+        line-height: 26px;
+        font-weight: 400, 600;
+        letter-spacing: 0;
+    }
+
+    ul {
+        list-style: none;
+    }
+    svg {
+        fill: currentColor;
+    }
+    .lnr {
+        display: inline-block;
+        fill: currentColor;
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.05em;
+    }
 }
