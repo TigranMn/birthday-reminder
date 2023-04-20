@@ -1,0 +1,19 @@
+@tailwind components;
+
+@layer components {
+    .h1 {
+        @apply text-5xxl leading-21 tracking-normal font-bold;
+    }
+
+    .h2 {
+        @apply text-5xl leading-21 tracking-normal font-bold;
+    }
+
+    .h3 {
+        @apply text-3xxl leading-12 tracking-normal font-semibold;
+    }
+
+    .h4 {
+        @apply text-xxl leading-8.5 tracking-normal font-medium;
+    }
+}
