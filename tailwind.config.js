@@ -16,6 +16,14 @@ module.exports = {
                 8.5: '34px',
                 12: '48px',
                 21: '72px'
+            },
+            colors: {
+                primary: '#f3f4f6',
+                secondary: '#4f46e5',
+                darkPrimary: '#3730a3',
+                darkSecondary: '#06b6d4',
+                default: '#1e293b',
+                darkDefault: '#cbd5e1'
             }
         }
     },

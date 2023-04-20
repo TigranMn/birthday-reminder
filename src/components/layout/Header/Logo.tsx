@@ -6,7 +6,7 @@ export default function Logo() {
     return (
         <Image
             onClick={() => router.push('/')}
-            className='bg-slate-200 cursor-pointer'
+            className='bg-primary dark:bg-darkPrimary cursor-pointer'
             src={'/images/logo.png'}
             width={100}
             height={180}

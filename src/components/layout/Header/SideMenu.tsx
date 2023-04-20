@@ -1,28 +1,31 @@
 import Icon from '@/components/shared/Icon'
 import { useState } from 'react'
 export default function SideMenu() {
-    const [userMenu, setUserMenu] = useState(false)
-    const [settingsMenu, setSettingsMenu] = useState(false)
+    const [menu, setMenu] = useState('')
 
     const handleUserMenuClick = () => {
-        setSettingsMenu(false)
-        setUserMenu(!userMenu)
+        setMenu((curr) => {
+            if (curr === 'user') return ''
+            return 'user'
+        })
     }
 
     const handleSettingMenuClick = () => {
-        setUserMenu(false)
-        setSettingsMenu(!settingsMenu)
+        setMenu((curr) => {
+            if (curr === 'settings') return ''
+            return 'settings'
+        })
     }
 
     return (
         <div className='flex gap-6'>
             <Icon
-                className={`${settingsMenu ? 'text-indigo-600' : ''}`}
+                className={`${menu === 'settings' ? 'text-secondary dark:text-darkSecondary' : ''}`}
                 onClick={handleSettingMenuClick}
                 icon={'lnr-cog'}
             />
             <Icon
-                className={`${userMenu ? 'text-indigo-600' : ''}`}
+                className={`${menu === 'user' ? 'text-secondary dark:text-darkSecondary' : ''}`}
                 onClick={handleUserMenuClick}
                 icon={'lnr-user'}
             />
