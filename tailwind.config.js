@@ -19,12 +19,12 @@ module.exports = {
                 21: '72px'
             },
             colors: {
-                primary: '#f3f4f6',
+                primary: '#e5e7eb',
                 secondary: '#4f46e5',
-                darkPrimary: '#3730a3',
-                darkSecondary: '#06b6d4',
+                darkPrimary: '#083344',
+                darkSecondary: 'white',
                 default: '#1e293b',
-                darkDefault: '#cbd5e1'
+                darkDefault: '#849BA8'
             }
         }
     },

@@ -1,13 +1,31 @@
 import Logo from './Logo'
 import NavItems from './NavItems'
-import SideMenu from './SideMenu'
+import SideMenus from './SideMenus'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { saveSettings } from '@/redux/slices/settingsSlice'
+import { useAppSelector } from '@/redux/hooks'
 
 export default function Header() {
-    return (
-        <div className='absolute top-0 left-0 right-0 flex justify-between bg-primary dark:bg-darkPrimary items-center pr-8'>
-            <Logo />
-            <NavItems />
-            <SideMenu />
-        </div>
-    )
+  const dispatch = useDispatch()
+  const settings = useAppSelector((state) => state.settings)
+  useEffect(() => {
+    const theme = localStorage.theme
+    if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+      dispatch(saveSettings({ theme: 'dark', language: null }))
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.theme = 'light'
+      dispatch(saveSettings({ theme: 'light', language: null }))
+    }
+  }, [settings])
+
+  return (
+    <div className='absolute top-0 left-0 right-0 flex justify-between bg-primary dark:bg-darkPrimary items-center pr-8'>
+      <Logo />
+      <NavItems />
+      <SideMenus />
+    </div>
+  )
 }
