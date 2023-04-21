@@ -26,15 +26,16 @@ export default function SettingsItemMenu({
           ? { transform: `translateX(${-128 * id}px)`, animationDuration: 500 * id + 'ms' }
           : undefined
       }
-      className={'flex w-32 flex-col list-none gap-6 p-4 transition-transform duration-500'}>
+      className={'flex w-32 flex-col list-none gap-4 p-2 transition-transform duration-500'}>
       {options.map((el) => {
         return (
           <li
             key={el.id}
-            className={`hover:text-secondary hover:dark:text-darkSecondary ${
-              theme === el.name.toLowerCase() ? 'bg-black' : ''
-            }`}>
+            className='hover:text-secondary hover:dark:text-darkSecondary flex justify-between items-center group'>
             <button onClick={onClick}>{el.name}</button>
+            {theme === el.name.toLowerCase() ? (
+              <div className='w-2 h-2 rounded-full bg-default dark:bg-darkDefault group-hover:bg-secondary group-hover:dark:bg-darkSecondary'></div>
+            ) : null}
           </li>
         )
       })}

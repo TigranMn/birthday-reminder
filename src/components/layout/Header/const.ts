@@ -5,7 +5,7 @@ type NavBarItem = {
   id: string
 }
 
-export const NavBarItems: NavBarItem[] = [
+export const navBarItems: NavBarItem[] = [
   {
     href: '/',
     exact: true,

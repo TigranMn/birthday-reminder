@@ -1,3 +1,4 @@
+import Icon from '@/components/shared/Icon'
 import { changeTheme } from '@/redux/slices/settingsSlice'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -28,17 +29,27 @@ export default function Settings() {
   return (
     <>
       <ul
-        className={`flex min-w-full flex-col gap-6 overflow-hidden p-4 transition-transform duration-500 ${
+        className={`flex min-w-full flex-col gap-4 overflow-hidden p-2 transition-transform duration-500 ${
           openedMenu ? '-translate-x-32' : null
         }`}>
         <li
-          className='hover:text-secondary hover:dark:text-darkSecondary'
+          className='hover:text-secondary hover:dark:text-darkSecondary flex gap-1 items-center group'
           onClick={() => setOpenedMenu('languages')}>
+          <Icon
+            className='group-hover:text-secondary group-hover:dark:text-darkSecondary'
+            icon='lnr-bubble'
+            wh='2'
+          />
           <button>Language</button>
         </li>
         <li
-          className='hover:text-secondary hover:dark:text-darkSecondary'
+          className='hover:text-secondary hover:dark:text-darkSecondary flex gap-1 items-center group'
           onClick={() => setOpenedMenu('themes')}>
+          <Icon
+            className='group-hover:text-secondary group-hover:dark:text-darkSecondary'
+            icon='lnr-layers'
+            wh='2'
+          />
           <button>Theme</button>
         </li>
       </ul>

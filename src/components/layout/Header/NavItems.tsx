@@ -1,10 +1,10 @@
 import NavLink from '@/components/shared/NavLink'
-import { NavBarItems } from './const'
+import { navBarItems } from './const'
 
 export default function NavItems() {
   return (
-    <ul className='flex justify-around grow'>
-      {NavBarItems.map(({ href, exact, text, id }) => {
+    <ul className='hidden justify-around grow md:flex'>
+      {navBarItems.map(({ href, exact, text, id }) => {
         return (
           <li key={id}>
             <NavLink
