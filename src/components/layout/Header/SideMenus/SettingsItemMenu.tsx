@@ -1,4 +1,4 @@
-import { SettingsItemOption } from './const'
+import { SettingsItemOption } from '../const'
 import React from 'react'
 import { useAppSelector } from '@/redux/hooks'
 

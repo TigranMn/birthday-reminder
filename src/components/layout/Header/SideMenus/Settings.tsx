@@ -2,7 +2,7 @@ import Icon from '@/components/shared/Icon'
 import { changeTheme } from '@/redux/slices/settingsSlice'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { languagesOptions, themesOptions } from './const'
+import { languagesOptions, themesOptions } from '../const'
 import SettingsItemMenu from './SettingsItemMenu'
 export default function Settings() {
   const dispatch = useDispatch()

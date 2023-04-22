@@ -1,7 +1,7 @@
 import Icon from '@/components/shared/Icon'
 import NavLink from '@/components/shared/NavLink'
 import React, { Dispatch, SetStateAction } from 'react'
-import { navBarItems } from './const'
+import { navBarItems } from '../const'
 
 type BurgerMenuProps = {
   setMenu: Dispatch<SetStateAction<string>>

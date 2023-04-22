@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import BurgerMenu from './BurgerMenu'
-import Dropdown from './Dropdown'
+import Dropdown from '../Dropdown'
 import Settings from './Settings'
 export default function SideMenus() {
   const [menu, setMenu] = useState('')
