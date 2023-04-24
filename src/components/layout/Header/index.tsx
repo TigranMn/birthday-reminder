@@ -26,12 +26,8 @@ export default function Header() {
   return (
     <div className='absolute top-0 left-0 right-0 flex justify-between bg-primary dark:bg-darkPrimary items-center pr-8'>
       <Logo />
-      {asPath !== '/login' ? (
-        <>
-          <NavItems />
-          <SideMenus />
-        </>
-      ) : null}
+      {asPath !== '/login' ? <NavItems /> : null}
+      <SideMenus />
     </div>
   )
 }

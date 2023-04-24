@@ -8,7 +8,7 @@ export default function NavItems() {
         return (
           <li key={id}>
             <NavLink
-              className='text-default  dark:text-darkDefault'
+              className='text-default  dark:text-darkDefault hover:text-secondary hover:dark:text-darkSecondary'
               activeClassName='text-secondary dark:text-darkSecondary'
               href={href}
               exact={exact}

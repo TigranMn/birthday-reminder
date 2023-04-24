@@ -9,7 +9,6 @@ type DropdownProps = {
   icon: string
   children: React.ReactNode
 }
-
 export default function Dropdown({ menu, setMenu, name, icon, children }: DropdownProps) {
   const isOpened = menu === name
   const handleMenuClick = () => {
@@ -22,7 +21,9 @@ export default function Dropdown({ menu, setMenu, name, icon, children }: Dropdo
   return (
     <div className='items-center flex relative'>
       <Icon
-        className={`relative ${isOpened ? 'text-secondary dark:text-darkSecondary' : ''}`}
+        className={`relative hover:text-secondary hover:dark:text-darkSecondary ${
+          isOpened ? 'text-secondary dark:text-darkSecondary' : ''
+        }`}
         onClick={handleMenuClick}
         icon={icon}
       />

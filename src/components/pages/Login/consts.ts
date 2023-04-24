@@ -8,7 +8,8 @@ export const signInFields: TInput[] = [
     name: 'email',
     type: 'email',
     isRequired: true,
-    placeholder: 'Email address'
+    placeholder: 'Email address',
+    error: ''
   },
   {
     labelText: 'Password',
@@ -17,11 +18,32 @@ export const signInFields: TInput[] = [
     name: 'password',
     type: 'password',
     isRequired: true,
-    placeholder: 'Password'
+    placeholder: 'Password',
+    error: ''
   }
 ]
 
 export const signupFields: TInput[] = [
+  {
+    labelText: 'Email address',
+    labelFor: 'email-address',
+    id: 'email-address',
+    name: 'email',
+    type: 'email',
+    isRequired: true,
+    placeholder: 'Email address',
+    error: ''
+  },
+  {
+    labelText: 'Password',
+    labelFor: 'password',
+    id: 'password',
+    name: 'password',
+    type: 'password',
+    isRequired: true,
+    placeholder: 'Password',
+    error: ''
+  },
   {
     labelText: 'First Name',
     labelFor: 'firstName',
@@ -29,7 +51,8 @@ export const signupFields: TInput[] = [
     name: 'firstName',
     type: 'text',
     isRequired: true,
-    placeholder: 'First name'
+    placeholder: 'First name',
+    error: ''
   },
   {
     labelText: 'Last Name',
@@ -38,25 +61,8 @@ export const signupFields: TInput[] = [
     name: 'lastName',
     type: 'text',
     isRequired: true,
-    placeholder: 'Last name'
-  },
-  {
-    labelText: 'Email address',
-    labelFor: 'email-address',
-    id: 'email-address',
-    name: 'email',
-    type: 'email',
-    isRequired: true,
-    placeholder: 'Email address'
-  },
-  {
-    labelText: 'Password',
-    labelFor: 'password',
-    id: 'password',
-    name: 'password',
-    type: 'password',
-    isRequired: true,
-    placeholder: 'Password'
+    placeholder: 'Last name',
+    error: ''
   },
   {
     labelText: 'Confirm Password',
@@ -65,6 +71,7 @@ export const signupFields: TInput[] = [
     name: 'confirm-password',
     type: 'password',
     isRequired: true,
-    placeholder: 'Confirm Password'
+    placeholder: 'Confirm Password',
+    error: ''
   }
 ]

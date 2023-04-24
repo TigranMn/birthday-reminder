@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import BurgerMenu from './BurgerMenu'
 import Dropdown from '../Dropdown'
 import Settings from './Settings'
+import { useRouter } from 'next/router'
 export default function SideMenus() {
   const [menu, setMenu] = useState('')
   const ref = useRef<any>(null)
+  const { asPath } = useRouter()
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -21,10 +23,15 @@ export default function SideMenus() {
       <Dropdown icon='lnr-cog' name='settings' menu={menu} setMenu={setMenu}>
         <Settings />
       </Dropdown>
-      <Dropdown icon='lnr-user' name='account' menu={menu} setMenu={setMenu}>
-        <Settings />
-      </Dropdown>
-      <BurgerMenu name='burger' menu={menu} setMenu={setMenu} />
+
+      {asPath !== '/login' ? (
+        <>
+          <Dropdown icon='lnr-user' name='account' menu={menu} setMenu={setMenu}>
+            <Settings />
+          </Dropdown>
+          <BurgerMenu name='burger' menu={menu} setMenu={setMenu} />
+        </>
+      ) : null}
     </div>
   )
 }

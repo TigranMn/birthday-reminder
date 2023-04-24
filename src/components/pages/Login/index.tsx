@@ -15,7 +15,7 @@ export default function Login() {
   return (
     <>
       <Header activeForm={activeForm} setActiveForm={setActiveForm} />
-      <Form activeForm={activeForm} formData={formData} />
+      <Form key={formData.length} activeForm={activeForm} formData={formData} />
     </>
   )
 }
