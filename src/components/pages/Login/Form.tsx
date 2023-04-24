@@ -29,7 +29,7 @@ export default function Form({ formData, activeForm }: TForm) {
 
   useEffect(() => {
     if (form.some((el) => el.error)) return
-    if (activeForm === 'signIn')
+    if (activeForm === 'signUp')
       dispatch(
         authorize({
           email: formRef.current!['email'].value,

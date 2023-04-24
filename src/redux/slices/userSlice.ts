@@ -16,7 +16,7 @@ const initialState: TUserState = {
 export const authorize = createAsyncThunk(
   'user/authorize',
   async (form: { email: string; password: string }): Promise<TUserState> => {
-    const res: TUserState = (await axios.post('/api/sign-in', { ...form, name: 'Tiko' })).data
+    const res: TUserState = (await axios.post('/api/sign-up', { ...form, name: 'Tiko' })).data
     console.log(res)
     return res
   }
