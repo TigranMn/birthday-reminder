@@ -8,6 +8,7 @@ export type TInput = {
   placeholder: string
   className?: string
   error: string | null
+  value?: string
 }
 
 export default function Input({
@@ -22,7 +23,7 @@ export default function Input({
   error
 }: TInput) {
   return (
-    <div className='my-5 flex flex-col'>
+    <div className='my-5 flex flex-col relative'>
       <label htmlFor={labelFor} className='sr-only'>
         {labelText}
       </label>
@@ -34,7 +35,7 @@ export default function Input({
         className={`rounded-md appearance-none  relative block w-full px-3 py-2 border focus:z-10 sm:text-sm ${className}`}
         placeholder={placeholder}
       />
-      <span className='text-sm text-red-500'>{error}</span>
+      <span className='text-xs text-red-500 absolute top-full'>{error}</span>
     </div>
   )
 }

@@ -9,7 +9,8 @@ export const signInFields: TInput[] = [
     type: 'email',
     isRequired: true,
     placeholder: 'Email address',
-    error: ''
+    error: '',
+    value: ''
   },
   {
     labelText: 'Password',
@@ -19,11 +20,12 @@ export const signInFields: TInput[] = [
     type: 'password',
     isRequired: true,
     placeholder: 'Password',
-    error: ''
+    error: '',
+    value: ''
   }
 ]
 
-export const signupFields: TInput[] = [
+export const signUpFields: TInput[] = [
   {
     labelText: 'Email address',
     labelFor: 'email-address',
@@ -32,17 +34,8 @@ export const signupFields: TInput[] = [
     type: 'email',
     isRequired: true,
     placeholder: 'Email address',
-    error: ''
-  },
-  {
-    labelText: 'Password',
-    labelFor: 'password',
-    id: 'password',
-    name: 'password',
-    type: 'password',
-    isRequired: true,
-    placeholder: 'Password',
-    error: ''
+    error: '',
+    value: ''
   },
   {
     labelText: 'First Name',
@@ -52,7 +45,8 @@ export const signupFields: TInput[] = [
     type: 'text',
     isRequired: true,
     placeholder: 'First name',
-    error: ''
+    error: '',
+    value: ''
   },
   {
     labelText: 'Last Name',
@@ -62,7 +56,19 @@ export const signupFields: TInput[] = [
     type: 'text',
     isRequired: true,
     placeholder: 'Last name',
-    error: ''
+    error: '',
+    value: ''
+  },
+  {
+    labelText: 'Password',
+    labelFor: 'password',
+    id: 'password',
+    name: 'password',
+    type: 'password',
+    isRequired: true,
+    placeholder: 'Password',
+    error: '',
+    value: ''
   },
   {
     labelText: 'Confirm Password',
@@ -72,6 +78,7 @@ export const signupFields: TInput[] = [
     type: 'password',
     isRequired: true,
     placeholder: 'Confirm Password',
-    error: ''
+    error: '',
+    value: ''
   }
 ]

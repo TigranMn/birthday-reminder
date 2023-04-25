@@ -3,6 +3,7 @@ import BurgerMenu from './BurgerMenu'
 import Dropdown from '../Dropdown'
 import Settings from './Settings'
 import { useRouter } from 'next/router'
+import Account from './Account'
 export default function SideMenus() {
   const [menu, setMenu] = useState('')
   const ref = useRef<any>(null)
@@ -27,7 +28,7 @@ export default function SideMenus() {
       {asPath !== '/login' ? (
         <>
           <Dropdown icon='lnr-user' name='account' menu={menu} setMenu={setMenu}>
-            <Settings />
+            <Account />
           </Dropdown>
           <BurgerMenu name='burger' menu={menu} setMenu={setMenu} />
         </>

@@ -1,6 +1,7 @@
 import User from '@/models/userModel'
 import connectMongo from '@/utils/connectMongo'
 import { NextApiRequest, NextApiResponse } from 'next'
+import bcrypt from 'bcrypt'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -9,12 +10,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   try {
     await connectMongo()
+    const isAlreadyRegistered = !!(await User.findOne({ email: req.body.email }))
 
-    const user = await User.create(req.body)
-    console.log(user)
-    res.json(user)
-  } catch (error) {
-    console.log(error)
-    res.status(500).json({ error })
+    if (isAlreadyRegistered) {
+      res.status(409).json({ error: 1, messages: { email: 'Email already in use' } })
+      return
+    }
+    await User.create({ ...req.body, password: bcrypt.hashSync(req.body.password, 5) })
+    res.json({ success: true })
+  } catch (error: any) {
+    res.json({ error: 1, message: error.message })
   }
 }

@@ -1,24 +1,43 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 export type TUserState = {
-  firstName: string | null
-  lastName: string | null
+  _id?: string | null
+  fullName: string | null
   email: string | null
+  token?: string
 }
 
 const initialState: TUserState = {
-  firstName: null,
-  lastName: null,
-  email: null
+  fullName: null,
+  email: null,
+  _id: null
 }
 
-export const authorize = createAsyncThunk(
+export const register = createAsyncThunk(
   'user/authorize',
-  async (form: { email: string; password: string }): Promise<TUserState> => {
-    const res: TUserState = (await axios.post('/api/sign-up', { ...form, name: 'Tiko' })).data
-    console.log(res)
-    return res
+  async (form: TUserState & { password: string }, { rejectWithValue }) => {
+    try {
+      await axios.post('/api/sign-up', form)
+    } catch (e) {
+      //@ts-ignore
+      const error = e.response.data
+      return rejectWithValue(error)
+    }
+  }
+)
+
+export const signIn = createAsyncThunk(
+  'user/signIn',
+  async (credentials: { email: string; password: string }, { rejectWithValue }) => {
+    try {
+      const res = await axios.post('/api/sign-in', credentials)
+      return res.data
+    } catch (e) {
+      console.log(e)
+      //@ts-ignore
+      return rejectWithValue(e.response.data)
+    }
   }
 )
 
@@ -27,10 +46,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(authorize.fulfilled, (state, action: PayloadAction<TUserState>) => {
-      state.email = action.payload.email
-      state.firstName = action.payload.firstName
-      state.lastName = action.payload.lastName
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      state.email = action.payload?.email!
+      state._id = action.payload?._id!
+      state.fullName = action.payload?.fullName!
+      state.token = action.payload?.token!
     })
   }
 })

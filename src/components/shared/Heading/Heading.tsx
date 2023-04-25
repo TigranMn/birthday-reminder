@@ -4,7 +4,7 @@ import React from 'react'
 type HeadingProps = {
   tag: React.ElementType
   children: React.ReactNode
-  className: string
+  className?: string
 }
 
 export default function Heading({ tag, children, className }: HeadingProps) {
