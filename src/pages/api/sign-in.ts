@@ -10,6 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(405).send({ message: 'Only POST requests allowed' })
     return
   }
+
   try {
     await connectMongo()
     const user = await User.findOne({ email: req.body.email })
@@ -21,10 +22,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(400).json({ error: 400, message: 'Invalid password' })
       return
     }
+
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!)
     // eslint-disable-next-line no-unused-vars
     const { password, ...finalUser } = user._doc
-    res.json({ ...finalUser, token })
+    res.setHeader('Authorization', token)
+    res.json(finalUser)
   } catch (error: any) {
     res.json({ error: 1, message: error.message })
   }

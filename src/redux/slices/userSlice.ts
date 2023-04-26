@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export type TUserState = {
   _id?: string | null
   fullName: string | null
   email: string | null
-  token?: string
 }
 
 const initialState: TUserState = {
@@ -32,9 +32,9 @@ export const signIn = createAsyncThunk(
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const res = await axios.post('/api/sign-in', credentials)
+      Cookies.set('token', res.headers['authorization'])
       return res.data
     } catch (e) {
-      console.log(e)
       //@ts-ignore
       return rejectWithValue(e.response.data)
     }
@@ -50,7 +50,6 @@ const userSlice = createSlice({
       state.email = action.payload?.email!
       state._id = action.payload?._id!
       state.fullName = action.payload?.fullName!
-      state.token = action.payload?.token!
     })
   }
 })
