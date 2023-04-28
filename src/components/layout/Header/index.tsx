@@ -5,11 +5,11 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { saveSettings } from '@/redux/slices/settingsSlice'
 import { useAppSelector } from '@/redux/hooks'
-import { useRouter } from 'next/router'
+import { useSession } from 'next-auth/react'
 
 export default function Header() {
   const dispatch = useDispatch()
-  const { asPath } = useRouter()
+  const session = useSession()
   const settings = useAppSelector((state) => state.settings)
   useEffect(() => {
     const theme = localStorage.theme
@@ -26,7 +26,7 @@ export default function Header() {
   return (
     <div className='absolute top-0 left-0 right-0 flex justify-between bg-primary dark:bg-darkPrimary items-center pr-8'>
       <Logo />
-      {asPath !== '/login' ? <NavItems /> : null}
+      {session?.data?.user ? <NavItems /> : null}
       <SideMenus />
     </div>
   )

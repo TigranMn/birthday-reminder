@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     await connectMongo()
-    const user = await User.findOne({ email: req.body.email })
+    const user = await User.findOne({ email: req.body.username })
     if (!user) {
       res.status(404).json({ error: 404, message: 'User not found' })
       return
@@ -26,8 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!)
     // eslint-disable-next-line no-unused-vars
     const { password, ...finalUser } = user._doc
-    res.setHeader('Authorization', token)
-    res.json(finalUser)
+    res.status(200).json({ name: finalUser.fullName, token: token, email: finalUser.email })
   } catch (error: any) {
     res.json({ error: 1, message: error.message })
   }

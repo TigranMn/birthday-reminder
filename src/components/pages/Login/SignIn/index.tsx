@@ -1,19 +1,23 @@
 import { useRouter } from 'next/router'
-import React, { FormEvent, useRef, useState } from 'react'
+import React, { FormEvent, useEffect, useRef, useState } from 'react'
 import Header from '../Header'
 import { signInFields } from '../consts'
 import Input from '@/components/shared/Input'
 import { validateFormItem } from '@/utils/validateFormItem'
 import useDidMountEffect from '@/hooks/useDidMount'
-import { useAppDispatch } from '@/redux/hooks'
-import { signIn } from '@/redux/slices/userSlice'
+import { signIn, useSession } from 'next-auth/react'
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState(signInFields)
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
-  const dispatch = useAppDispatch()
+  const session = useSession()
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    if (session.data?.user) router.push('/companies')
+  }, [session])
 
   const handleClick = () => {
     router.push('/sign-up')
@@ -21,6 +25,7 @@ export default function SignIn() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
+    setError(false)
     setForm((prev) => {
       return prev.map((el) => {
         const inputName = el.name
@@ -32,34 +37,28 @@ export default function SignIn() {
     })
   }
 
-  useDidMountEffect(() => {
+  useDidMountEffect(async () => {
     if (form.some((el) => el.error)) return
     setLoading(true)
     const currForm: { email: string; password: string } = form.reduce((accm, curr) => {
       return { ...accm, [curr['name']]: curr.value }
     }, {} as { email: string; password: string })
 
-    dispatch(signIn({ email: currForm.email, password: currForm.password }))
-      .unwrap()
-      .catch((res) => {
-        if (res.error === 404)
-          setForm((prev) => {
-            return prev.map((el) => {
-              if (el.name === 'email') el.error = res.message
-              return el
-            })
-          })
-        if (res.error === 400)
-          setForm((prev) => {
-            return prev.map((el) => {
-              if (el.name === 'password') el.error = res.message
-              return el
-            })
-          })
-      })
+    const res = await signIn('credentials', {
+      username: currForm.email,
+      password: currForm.password,
+      redirect: false,
+      callbackUrl: '/companies'
+    })
+    if (!res!?.ok) {
+      setError(true)
+      setLoading(false)
+    }
     setLoading(false)
   }, [form])
-  return (
+  return session.status === 'loading' || session.status === 'authenticated' ? (
+    <p>Loading...</p>
+  ) : (
     <>
       <Header
         heading='Sign in to your account'
@@ -95,9 +94,12 @@ export default function SignIn() {
           type='submit'
           className='relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-default hover:text-primary bg-primary hover:bg-secondary dark:bg-darkDefault hover:dark:bg-darkPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 mt-10'>
           {' '}
-          {loading ? 'Loading...' : 'Sing in'}
+          {loading ? 'Loading...' : 'Sign in'}
+          {error ? (
+            <p className='text-red-500 absolute -bottom-5 left-0'>Invalid credentials</p>
+          ) : null}
         </button>
-      </form>
+      </form>{' '}
     </>
   )
 }
