@@ -1,8 +1,11 @@
+import { deleteCompany } from '@/api/deleteCompany'
 import Heading from '@/components/shared/Heading/Heading'
 import Icon from '@/components/shared/Icon'
 import InputErrorMessage from '@/components/shared/InputErrorMessage'
 import SaveCancel from '@/components/shared/SaveCancel'
+import { useAppSelector } from '@/redux/hooks'
 import { TCompany } from '@/types/types'
+import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 
 export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'userId'>) {
@@ -10,6 +13,8 @@ export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'u
   const [inputError, setInputError] = useState('')
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const editRef = useRef<HTMLDivElement>(null)
+  const user = useAppSelector((state) => state.user)
+  const router = useRouter()
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -36,8 +41,11 @@ export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'u
     setInputError('')
   }
 
-  const handleDelete = () => {
-    console.log(_id)
+  const handleDelete = async () => {
+    const response = await deleteCompany(_id, user.token!)
+    if (response.ok) {
+      router.push(router.asPath)
+    }
   }
 
   return (

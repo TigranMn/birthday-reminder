@@ -2,15 +2,15 @@ import Logo from './Logo'
 import NavItems from './NavItems'
 import SideMenus from './SideMenus/SideMenus'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { saveSettings } from '@/redux/slices/settingsSlice'
-import { useAppSelector } from '@/redux/hooks'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { useSession } from 'next-auth/react'
 
 export default function Header() {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const session = useSession()
   const settings = useAppSelector((state) => state.settings)
+
   useEffect(() => {
     const theme = localStorage.theme
     if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

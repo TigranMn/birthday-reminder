@@ -1,10 +1,27 @@
 import Company from '@/components/pages/Companies/Company'
 import AddCompany from '@/components/shared/AddCompany'
-import { useAppSelector } from '@/redux/hooks'
 import React from 'react'
+import { GetServerSideProps } from 'next'
+import { TCompany } from '@/types/types'
+import { getSession } from 'next-auth/react'
+import axios from 'axios'
 
-export default function Companies() {
-  const companies = useAppSelector((state) => state.companies.companies)
+export const getServerSideProps: GetServerSideProps<{ companies: TCompany[] }> = async (
+  context
+) => {
+  const session = await getSession(context)
+  if (session?.user) {
+    const res = await axios.get('http://localhost:3000/api/companies', {
+      headers: { Authorization: session.user.token }
+    })
+    return {
+      props: { companies: res.data }
+    }
+  }
+  return { props: { companies: [] } }
+}
+
+export default function Companies({ companies }: { companies: TCompany[] }) {
   return (
     <div className='dark:text-darkDefault text-default flex flex-wrap justify-between gap-8'>
       {companies.map((el) => {

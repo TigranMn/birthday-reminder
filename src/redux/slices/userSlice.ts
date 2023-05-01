@@ -1,35 +1,37 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
+import { TSessionUser } from '@/types/types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export type TUserState = {
   _id?: string | null
   fullName: string | null
   email: string | null
+  token?: string | null
 }
 
 const initialState: TUserState = {
   fullName: null,
   email: null,
-  _id: null
+  _id: null,
+  token: null
 }
-
-export const register = createAsyncThunk(
-  'user/authorize',
-  async (form: TUserState & { password: string }, { rejectWithValue }) => {
-    try {
-      await axios.post('/api/sign-up', form)
-    } catch (e) {
-      //@ts-ignore
-      const error = e.response.data
-      return rejectWithValue(error)
-    }
-  }
-)
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {}
+  reducers: {
+    setUser(state, action: PayloadAction<TSessionUser>) {
+      state.fullName = action.payload.name
+      state.token = action.payload.token
+      state.email = action.payload.email
+      state._id = action.payload._id
+    },
+    clearUser(state) {
+      state.email = null
+      state.fullName = null
+      state.token = null
+      state._id = null
+    }
+  }
 })
-
+export const { setUser, clearUser } = userSlice.actions
 export default userSlice.reducer

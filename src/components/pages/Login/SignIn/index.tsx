@@ -5,19 +5,20 @@ import { signInFields } from '../consts'
 import Input from '@/components/shared/Input'
 import { validateFormItem } from '@/utils/validateFormItem'
 import useDidMountEffect from '@/hooks/useDidMount'
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
+import { useAppSelector } from '@/redux/hooks'
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState(signInFields)
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
-  const session = useSession()
+  const user = useAppSelector((state) => state.user)
   const [error, setError] = useState(false)
 
   useEffect(() => {
-    if (session.data?.user) router.push('/companies')
-  }, [session])
+    if (user._id) router.push('/companies')
+  }, [user])
 
   const handleClick = () => {
     router.push('/sign-up')
@@ -55,10 +56,9 @@ export default function SignIn() {
       setLoading(false)
     }
     setLoading(false)
+    //error handling
   }, [form])
-  return session.status === 'loading' || session.status === 'authenticated' ? (
-    <p>Loading...</p>
-  ) : (
+  return (
     <>
       <Header
         heading='Sign in to your account'
@@ -92,7 +92,7 @@ export default function SignIn() {
         })}
         <button
           type='submit'
-          className='relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-default hover:text-primary bg-primary hover:bg-secondary dark:bg-darkDefault hover:dark:bg-darkPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 mt-10'>
+          className='relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-default hover:text-primary bg-primary hover:bg-secondary dark:bg-darkDefault hover:dark:bg-darkPrimary  mt-10'>
           {' '}
           {loading ? 'Loading...' : 'Sign in'}
           {error ? (

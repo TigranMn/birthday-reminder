@@ -9,7 +9,6 @@ const initialState: TSettingsState = {
   language: null,
   theme: null
 }
-
 const settingsSlice = createSlice({
   name: 'settings',
   initialState,

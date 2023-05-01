@@ -1,10 +1,11 @@
-import { signOut, useSession } from 'next-auth/react'
+import { useAppSelector } from '@/redux/hooks'
+import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 export default function Account() {
-  const { data: session } = useSession()
+  const user = useAppSelector((state) => state.user)
   const router = useRouter()
 
   const handleSignOut = async () => {
@@ -14,7 +15,7 @@ export default function Account() {
 
   return (
     <ul className='flex flex-col gap-4 p-2 min-w-[128px]'>
-      {!session?.user ? (
+      {!user._id ? (
         <>
           <Link href={'/sign-in'} className='hover:text-secondary dark:hover:text-darkSecondary'>
             Sign in
@@ -25,7 +26,7 @@ export default function Account() {
         </>
       ) : (
         <>
-          <p className='text-center border-b-secondary border-b'>{session.user.name}</p>
+          <p className='text-center border-b-secondary border-b'>{user.fullName}</p>
           <button
             onClick={handleSignOut}
             className='hover:text-secondary dark:hover:text-darkSecondary'>

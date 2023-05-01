@@ -1,5 +1,7 @@
+import { TSession, TSessionToken, TSessionUser } from '@/types/types'
 import axios from 'axios'
 import NextAuth, { NextAuthOptions } from 'next-auth'
+import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import process from 'process'
 export const authOptions: NextAuthOptions = {
@@ -33,16 +35,15 @@ export const authOptions: NextAuthOptions = {
     signIn: '/sign-in'
   },
   callbacks: {
-    async session({ session, token }) {
-      //@ts-ignore
-      session.user = token.user
+    async session({ session, token }): Promise<TSession> {
+      session.user = token.user as TSessionUser
       return session
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: JWT; user: unknown }): Promise<TSessionToken> {
       if (user) {
-        token.user = user
+        token.user = user as TSessionUser
       }
-      return token
+      return token as TSessionToken
     }
   }
 }

@@ -1,7 +1,6 @@
+import { register } from '@/api/register'
 import Input from '@/components/shared/Input'
 import useDidMountEffect from '@/hooks/useDidMount'
-import { useAppDispatch } from '@/redux/hooks'
-import { register } from '@/redux/slices/userSlice'
 import { TFinalUser } from '@/types/types'
 import { validateConfirmPassword, validateFormItem } from '@/utils/validateFormItem'
 import { useRouter } from 'next/router'
@@ -10,7 +9,6 @@ import { signUpFields } from '../consts'
 import Header from '../Header'
 
 export default function SignUp() {
-  const dispatch = useAppDispatch()
   const [form, setForm] = useState(signUpFields)
   const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
@@ -34,30 +32,25 @@ export default function SignUp() {
     })
   }
 
-  useDidMountEffect(() => {
+  useDidMountEffect(async () => {
+    if (form.some((el) => el.error)) return
     const currForm: TFinalUser = form.reduce((accm, curr) => {
       return { ...accm, [curr['name']]: curr.value }
     }, {} as TFinalUser)
-
-    dispatch(
-      register({
-        email: currForm.email,
-        password: currForm.password,
-        fullName: currForm.firstName + ' ' + currForm.lastName
-      })
-    )
-      .unwrap()
-      .then(() => {
-        router.push('/sign-in')
-      })
-      .catch((e) =>
-        setForm((prev) => {
-          return prev.map((el) => {
-            if (el.name === 'email') el.error = e.messages.email
-            return el
-          })
+    const res = await register({
+      email: currForm.email,
+      password: currForm.password,
+      fullName: currForm.firstName + ' ' + currForm.lastName
+    })
+    if (res.ok) router.push('/sign-in')
+    else {
+      setForm((prev) => {
+        return prev.map((el) => {
+          if (el.name === 'email') el.error = res.messages.email
+          return el
         })
-      )
+      })
+    }
   }, [form])
 
   return (
@@ -94,7 +87,7 @@ export default function SignUp() {
         })}
         <button
           type='submit'
-          className='relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-default hover:text-primary bg-primary hover:bg-secondary dark:bg-darkDefault hover:dark:bg-darkPrimary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 mt-10'>
+          className='relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-default hover:text-primary bg-primary hover:bg-secondary dark:bg-darkDefault hover:dark:bg-darkPrimary mt-10'>
           Sign Up
         </button>
       </form>

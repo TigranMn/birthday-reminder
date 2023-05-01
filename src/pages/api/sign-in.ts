@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import process from 'process'
-
+// refactor
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.status(405).send({ message: 'Only POST requests allowed' })
@@ -26,7 +26,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!)
     // eslint-disable-next-line no-unused-vars
     const { password, ...finalUser } = user._doc
-    res.status(200).json({ name: finalUser.fullName, token: token, email: finalUser.email })
+
+    res.status(200).json({
+      name: finalUser.fullName,
+      token: token,
+      email: finalUser.email,
+      _id: finalUser._id.toString()
+    })
   } catch (error: any) {
     res.json({ error: 1, message: error.message })
   }

@@ -16,3 +16,20 @@ export type TMongoDoc = {
   _id: string
   _v: number
 }
+export type TSessionUser = {
+  name: string
+  email: string
+  token: string
+  _id: string
+}
+
+export type TSession = {
+  user: TSessionUser
+  expires: string
+}
+
+export type TSessionToken = {
+  name: string
+  email: string
+  user: TSessionUser
+}

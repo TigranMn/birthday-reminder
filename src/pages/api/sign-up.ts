@@ -2,7 +2,7 @@ import User from '@/models/userModel'
 import connectMongo from '@/utils/connectMongo'
 import { NextApiRequest, NextApiResponse } from 'next'
 import bcrypt from 'bcrypt'
-
+// refactor
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     res.status(405).send({ message: 'Only POST requests allowed' })

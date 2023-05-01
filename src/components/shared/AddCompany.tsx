@@ -1,12 +1,12 @@
-import { useAppDispatch } from '@/redux/hooks'
-import { addCompany } from '@/redux/slices/companiesSlice'
+import { useAppSelector } from '@/redux/hooks'
+import { addCompany } from '@/api/addCompany'
 import { validateCompanyInput } from '@/utils/validateCompanyInput'
+import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import InputErrorMessage from './InputErrorMessage'
 import SaveCancel from './SaveCancel'
 
 export default function AddCompany() {
-  const dispatch = useAppDispatch()
   const [add, setAdd] = useState(false)
   const [inputError, setInputError] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -14,6 +14,8 @@ export default function AddCompany() {
   const [loading, setLoading] = useState(false)
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState('')
+  const user = useAppSelector((state) => state.user)
+  const router = useRouter()
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -38,17 +40,22 @@ export default function AddCompany() {
       return
     }
     setLoading(true)
-    try {
-      await dispatch(addCompany({ name: textareaRef.current?.value!, userId: 'dasfsd' }))
+    const res = await addCompany(textareaRef.current?.value!, user._id!, user.token!)
+    if (res.ok) {
+      router.replace(router.asPath)
       setError('')
-    } catch (e) {
-      setError('da')
+    } else {
+      console.log(res.ok)
     }
     setLoading(false)
     setAdd(false)
     setInputError('')
   }
 
+  const handleCancel = () => {
+    setAdd(false)
+    setInputError('')
+  }
   return add ? (
     <div
       ref={addRef}
@@ -63,7 +70,7 @@ export default function AddCompany() {
             className='outline-none bg-primary pb-6 text-center'
           />
           <InputErrorMessage text={inputError} className='block' />
-          <SaveCancel handleCancel={() => setAdd(false)} handleSave={handleSave} />
+          <SaveCancel handleCancel={handleCancel} handleSave={handleSave} />
         </>
       )}
     </div>
