@@ -1,3 +1,4 @@
+import { changeCompanyName } from '@/api/changeCompanyName'
 import { deleteCompany } from '@/api/deleteCompany'
 import Heading from '@/components/shared/Heading/Heading'
 import Icon from '@/components/shared/Icon'
@@ -31,14 +32,23 @@ export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'u
     if (inputRef.current) inputRef.current.focus()
   }, [editName])
 
-  const handleSave = () => {
-    if (inputRef.current?.value.length! > 56) {
+  const handleSave = async () => {
+    if (inputRef.current?.value.trim().length! > 56) {
       setInputError('Cant be longer than 56 characters')
       return
     }
-
-    setEditName(false)
-    setInputError('')
+    if (!inputRef.current?.value.trim().length) {
+      setInputError('Fill the name')
+      return
+    }
+    const res = await changeCompanyName(_id, user.token!, inputRef.current?.value!)
+    if (res.ok) {
+      router.push(router.asPath)
+      setInputError('')
+      setEditName(false)
+    } else {
+      console.log(res.ok)
+    }
   }
 
   const handleDelete = async () => {
