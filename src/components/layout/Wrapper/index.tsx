@@ -1,5 +1,5 @@
-import { useAppDispatch } from '@/redux/hooks'
-import { clearUser, setUser } from '@/redux/slices/userSlice'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { setUser } from '@/redux/slices/userSlice'
 import { useSession } from 'next-auth/react'
 import { ReactNode, useEffect } from 'react'
 
@@ -10,12 +10,11 @@ type WrapperProps = {
 export default function Wrapper({ children }: WrapperProps) {
   const session = useSession()
   const dispatch = useAppDispatch()
+  const userId = useAppSelector((state) => state.user._id)
 
   useEffect(() => {
-    if (session.data?.user) {
+    if (session.data?.user && !userId) {
       dispatch(setUser(session.data?.user!))
-    } else {
-      dispatch(clearUser())
     }
   }, [session])
 

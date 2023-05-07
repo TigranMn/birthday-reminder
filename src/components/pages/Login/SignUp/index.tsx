@@ -10,6 +10,7 @@ import Header from '../Header'
 
 export default function SignUp() {
   const [form, setForm] = useState(signUpFields)
+  const [loading, setLoading] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   const router = useRouter()
 
@@ -37,13 +38,16 @@ export default function SignUp() {
     const currForm: TFinalUser = form.reduce((accm, curr) => {
       return { ...accm, [curr['name']]: curr.value }
     }, {} as TFinalUser)
+    setLoading(true)
     const res = await register({
       email: currForm.email,
       password: currForm.password,
       fullName: currForm.firstName + ' ' + currForm.lastName
     })
-    if (res.ok) router.push('/sign-in')
-    else {
+
+    if (res.ok) {
+      router.push('/sign-in')
+    } else {
       setForm((prev) => {
         return prev.map((el) => {
           if (el.name === 'email') el.error = res.messages.email
@@ -51,6 +55,7 @@ export default function SignUp() {
         })
       })
     }
+    setLoading(false)
   }, [form])
 
   return (
@@ -86,9 +91,10 @@ export default function SignUp() {
           )
         })}
         <button
+          disabled={loading}
           type='submit'
           className='relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-default hover:text-primary bg-primary hover:bg-secondary dark:bg-darkDefault hover:dark:bg-darkPrimary mt-10'>
-          Sign Up
+          {loading ? 'Loading...' : 'Sign Up'}
         </button>
       </form>
     </>

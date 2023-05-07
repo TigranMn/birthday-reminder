@@ -1,14 +1,10 @@
 import axios from 'axios'
 
-export const addCompany = async (
-  name: string,
-  userId: string,
-  token: string
-): Promise<{ ok: boolean }> => {
+export const addCompany = async (name: string, userId: string, token: string) => {
   try {
-    await axios.post('/api/company', { name, userId, token })
-    return { ok: true }
+    const res = await axios.post('/api/company', { name, userId, token })
+    return res.data
   } catch (e) {
-    return { ok: false }
+    return e
   }
 }

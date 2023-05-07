@@ -91,15 +91,15 @@ export default function SignIn() {
           )
         })}
         <button
+          disabled={loading}
           type='submit'
           className='relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-default hover:text-primary bg-primary hover:bg-secondary dark:bg-darkDefault hover:dark:bg-darkPrimary  mt-10'>
-          {' '}
           {loading ? 'Loading...' : 'Sign in'}
           {error ? (
             <p className='text-red-500 absolute -bottom-5 left-0'>Invalid credentials</p>
           ) : null}
         </button>
-      </form>{' '}
+      </form>
     </>
   )
 }

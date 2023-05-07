@@ -19,6 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await User.create({ ...req.body, password: bcrypt.hashSync(req.body.password, 5) })
     res.json({ success: true })
   } catch (error: any) {
-    res.json({ error: 1, message: error.message })
+    res.status(500).json({ error: 1, message: error.message })
   }
 }

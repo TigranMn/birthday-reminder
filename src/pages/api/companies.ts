@@ -5,19 +5,15 @@ import process from 'process'
 import { TCompany } from '@/types/types'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'GET') {
-    res.status(405).send({ message: 'Only GET requests allowed' })
-    return
-  }
-  const token = req.headers.authorization!
-  let user
   try {
-    user = jwt.verify(token, process.env.JWT_SECRET!)
-  } catch (e) {
-    res.status(400).send(e.message)
-    return
-  }
+    if (req.method !== 'GET') throw { status: 405, message: 'Only GET requests allowed' }
+    const token = req.headers.authorization!
 
-  const companies: TCompany[] = await Company.find({ userId: user.id })
-  res.status(200).json(companies)
+    const user = jwt.verify(token, process.env.JWT_SECRET!) as { id: string }
+    const companies: TCompany[] = await Company.find({ userId: user.id })
+
+    res.status(200).json(companies)
+  } catch (e: any) {
+    res.status(e.status || 500).send(e.message || 'Something went wrong')
+  }
 }

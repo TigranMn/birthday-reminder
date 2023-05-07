@@ -22,7 +22,12 @@
         "indent": ["error", 2],
         "quotes": ["error", "single"],
         "jsx-quotes": ["error", "prefer-single"],
-        "semi": ["error", "never"]
+        "semi": ["error", "never"],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            { "argsIgnorePattern": "^_" }
+        ]
     },
     "settings": {
         "react": {

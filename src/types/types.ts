@@ -33,3 +33,9 @@ export type TSessionToken = {
   email: string
   user: TSessionUser
 }
+
+export enum NotificationVariants {
+  'WARNING' = 'warn',
+  'ERROR' = 'error',
+  'SUCCESS' = 'success'
+}

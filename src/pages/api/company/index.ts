@@ -10,20 +10,16 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const token = req.body.token
   let decoded
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET!)
-  } catch (e) {
-    res.status(500).send(e.message)
-    return
-  }
+    decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: string }
 
-  if (decoded.id !== userId) {
-    res.status(403).json({ error: 403, message: 'Forbidden' })
-    return
-  }
+    if (decoded.id !== userId) throw { status: 403, message: 'Forbidden' }
 
-  if (req.method === 'POST') {
-    createCompany(req, res)
-    return
+    if (req.method === 'POST') {
+      createCompany(req, res)
+      return
+    }
+  } catch (e: any) {
+    res.status(e.status || 500).send(e.message || 'Something went wrong')
   }
 }
 

@@ -5,6 +5,9 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import InputErrorMessage from './InputErrorMessage'
 import SaveCancel from './SaveCancel'
+import { useToast } from '@/hooks/useToast'
+import { NotificationVariants } from '@/types/types'
+import { DotLoader } from 'react-spinners'
 
 export default function AddCompany() {
   const [add, setAdd] = useState(false)
@@ -13,9 +16,9 @@ export default function AddCompany() {
   const addRef = useRef<HTMLDivElement>(null)
   const [loading, setLoading] = useState(false)
   // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState('')
   const user = useAppSelector((state) => state.user)
   const router = useRouter()
+  const toast = useToast()
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -41,11 +44,10 @@ export default function AddCompany() {
     }
     setLoading(true)
     const res = await addCompany(textareaRef.current?.value!, user._id!, user.token!)
-    if (res.ok) {
+    if (res._id) {
       router.replace(router.asPath)
-      setError('')
     } else {
-      console.log(res.ok)
+      toast(NotificationVariants.ERROR, res)
     }
     setLoading(false)
     setAdd(false)
@@ -61,7 +63,7 @@ export default function AddCompany() {
       ref={addRef}
       className='relative bg-primary min-w-[250px] md:min-w-[300px] min-h-[150px] md:min-h-[200px] rounded-sm px-4 flex flex-col items-center'>
       {loading ? (
-        <p>Loading...</p>
+        <DotLoader className='m-auto' color='#4f46e5' />
       ) : (
         <>
           <textarea
@@ -69,7 +71,7 @@ export default function AddCompany() {
             placeholder='Enter the name of your company'
             className='outline-none bg-primary pb-6 text-center'
           />
-          <InputErrorMessage text={inputError} className='block' />
+          <InputErrorMessage text={inputError} className='block top-14' />
           <SaveCancel handleCancel={handleCancel} handleSave={handleSave} />
         </>
       )}
@@ -77,8 +79,8 @@ export default function AddCompany() {
   ) : (
     <div
       onClick={() => setAdd(true)}
-      className=' bg-primary dark:bg-darkPrimary min-w-[250px] max-w-[250px] min-h-[150px] md:min-w-[300px] md:max-w-[200px] md:min-h-[200px] flex grow justify-center items-center rounded-sm cursor-pointer hover:opacity-50'>
-      <div className='bg-gray-400 dark:bg-darkDefault rounded-full relative min-w-[100px] min-h-[100px] md:min-w-[126px] md:min-h-[126px]'>
+      className='group bg-primary dark:bg-darkPrimary min-w-[250px] max-w-[250px] min-h-[150px] md:min-w-[300px] md:max-w-[200px] md:min-h-[200px] flex grow justify-center items-center rounded-sm cursor-pointer hover:bg-opacity-50'>
+      <div className='group-hover:bg-opacity-50 bg-gray-400 dark:bg-darkDefault rounded-full relative min-w-[100px] min-h-[100px] md:min-w-[126px] md:min-h-[126px]'>
         <div className='absolute top-1/4 bottom-1/4 left-[48px] md:left-[60px] w-1 md:w-2 bg-primary dark:bg-darkPrimary'></div>
         <div className='absolute left-1/4 right-1/4 top-[48px] md:top-[58px] h-1 md:h-2 bg-primary dark:bg-darkPrimary'></div>
       </div>

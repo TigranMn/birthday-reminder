@@ -6,25 +6,19 @@ import jwt from 'jsonwebtoken'
 import process from 'process'
 // refactor
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    res.status(405).send({ message: 'Only POST requests allowed' })
-    return
-  }
-
   try {
+    if (req.method !== 'POST') throw { status: 500, message: 'Only POST requests allowed' }
+
     await connectMongo()
     const user = await User.findOne({ email: req.body.username })
-    if (!user) {
-      res.status(404).json({ error: 404, message: 'User not found' })
-      return
-    }
-    if (!bcrypt.compareSync(req.body.password, user.password)) {
-      res.status(400).json({ error: 400, message: 'Invalid password' })
-      return
-    }
+
+    if (!user) throw { status: 404, message: 'User not found' }
+
+    if (!bcrypt.compareSync(req.body.password, user.password))
+      throw { status: 400, message: 'Invalid password' }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!)
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...finalUser } = user._doc
 
     res.status(200).json({
@@ -33,8 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       email: finalUser.email,
       _id: finalUser._id.toString()
     })
-  } catch (error: any) {
-    res.json({ error: 1, message: error.message })
+  } catch (e: any) {
+    res.status(e.status || 500).send(e.message || 'Something went wrong')
   }
-  return
 }
