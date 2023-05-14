@@ -1,24 +1,18 @@
 import { useRouter } from 'next/router'
-import React, { FormEvent, useEffect, useRef, useState } from 'react'
+import React, { FormEvent, useRef, useState } from 'react'
 import Header from '../Header'
 import { signInFields } from '../consts'
 import Input from '@/components/shared/Input'
 import { validateFormItem } from '@/utils/validateFormItem'
 import useDidMountEffect from '@/hooks/useDidMount'
 import { signIn } from 'next-auth/react'
-import { useAppSelector } from '@/redux/hooks'
 
 export default function SignIn() {
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState(signInFields)
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
-  const user = useAppSelector((state) => state.user)
   const [error, setError] = useState(false)
-
-  useEffect(() => {
-    if (user._id) router.push('/companies')
-  }, [user])
 
   const handleClick = () => {
     router.push('/sign-up')
@@ -51,9 +45,10 @@ export default function SignIn() {
       redirect: false,
       callbackUrl: '/companies'
     })
-    if (!res!?.ok) {
-      setError(true)
-      setLoading(false)
+    if (!res!?.ok) setError(true)
+    else {
+      router.push('/companies')
+      setError(false)
     }
     setLoading(false)
     //error handling

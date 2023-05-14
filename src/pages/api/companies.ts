@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import jwt from 'jsonwebtoken'
 import process from 'process'
 import { TCompany } from '@/types/types'
+import connectMongo from '@/utils/connectMongo'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
@@ -10,6 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const token = req.headers.authorization!
 
     const user = jwt.verify(token, process.env.JWT_SECRET!) as { id: string }
+    await connectMongo()
     const companies: TCompany[] = await Company.find({ userId: user.id })
 
     res.status(200).json(companies)

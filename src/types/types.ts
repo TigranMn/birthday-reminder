@@ -34,6 +34,16 @@ export type TSessionToken = {
   user: TSessionUser
 }
 
+export type TEmployee = {
+  userId: string
+  _id: string
+  fullName: string
+  birthday: string
+  email: string
+  companyId: string
+  position: string
+}
+
 export enum NotificationVariants {
   'WARNING' = 'warn',
   'ERROR' = 'error',

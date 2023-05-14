@@ -36,7 +36,8 @@ export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'u
     if (inputRef.current) inputRef.current.focus()
   }, [editName])
 
-  const handleSave = async () => {
+  const handleSave = async (e: any) => {
+    e.stopPropagation()
     if (inputRef.current?.value.trim().length! > 56) {
       setInputError('Cant be longer than 56 characters')
       return
@@ -57,7 +58,8 @@ export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'u
     setLoading(false)
   }
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: any) => {
+    e.stopPropagation()
     setLoading(true)
     const response = await deleteCompany(_id, user.token!)
     if (response.ok) {
@@ -66,8 +68,19 @@ export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'u
     setLoading(false)
   }
 
+  const handleEdit = (e: any) => {
+    e.stopPropagation()
+    setEditName(true)
+  }
+
+  const handleCancelEdit = (e: any) => {
+    e.stopPropagation()
+    setEditName(false)
+  }
+
   return (
     <div
+      onClick={() => router.push(`/companies/${_id}`)}
       className={`relative bg-primary py-2 px-4 dark:bg-darkPrimary min-w-[250px] min-h-[150px] max-w-[250px] md:max-w-[300px] md:min-w-[300px] md:min-h-[200px] grow flex justify-start rounded-sm cursor-pointer flex-col ${
         editName ? 'cursor-default' : 'hover:bg-opacity-70 '
       }`}>
@@ -86,14 +99,14 @@ export default function Company({ name, employeesCount, _id }: Omit<TCompany, 'u
                     defaultValue={name}
                   />
                   <InputErrorMessage text={inputError} className='top-full left-2' />
-                  <SaveCancel handleCancel={() => setEditName(false)} handleSave={handleSave} />
+                  <SaveCancel handleCancel={handleCancelEdit} handleSave={handleSave} />
                 </div>
               </>
             ) : (
               <>
                 {name}
                 <Icon
-                  onClick={() => setEditName(true)}
+                  onClick={handleEdit}
                   icon='lnr-pencil'
                   wh='w-4 h-4'
                   className='transform  md:opacity-0 group-hover:opacity-100 shrink-0 duration-300 hover:text-secondary dark:hover:text-darkSecondary'

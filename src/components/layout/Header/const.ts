@@ -14,15 +14,15 @@ export const navBarItems: NavBarItem[] = [
   },
   {
     href: 'companies',
-    exact: false,
+    exact: true,
     text: 'My Companies',
-    id: 'companies'
+    id: '/companies'
   },
   {
     href: '/birthdays',
     exact: false,
     text: 'All Birthdays',
-    id: 'birthdays'
+    id: '/birthdays'
   }
 ]
 

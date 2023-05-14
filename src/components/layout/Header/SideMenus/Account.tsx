@@ -12,8 +12,8 @@ export default function Account() {
 
   const handleSignOut = async () => {
     await signOut({ redirect: false })
-    dispatch(clearUser())
     router.push('/sign-in')
+    dispatch(clearUser())
   }
 
   return (

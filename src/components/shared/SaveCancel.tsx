@@ -1,8 +1,8 @@
 import Icon from './Icon'
 
 type SaveCancelProps = {
-  handleSave: () => void
-  handleCancel: () => void
+  handleSave?: (e: any) => void
+  handleCancel: (e: any) => void
 }
 
 export default function SaveCancel({ handleSave, handleCancel }: SaveCancelProps) {

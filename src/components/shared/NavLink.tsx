@@ -20,7 +20,6 @@ export default function NavLink({
   const { pathname } = useRouter()
 
   const isActive = exact ? href === pathname : pathname.includes(href)
-
   return (
     <Link
       className={`cursor-pointer text-center block h-full w-full py-4 ${className} ${
