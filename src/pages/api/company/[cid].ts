@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import process from 'process'
 import Company from '@/models/companyModel'
 import { ObjectId } from 'mongodb'
+import Employee from '@/models/employeeModel'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { cid } = req.query
@@ -18,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === 'DELETE') {
       await Company.deleteOne({ _id: new ObjectId(cid as string) })
+      await Employee.deleteMany({ companyId: new ObjectId(cid as string) })
       return res.status(200).send('Deleted')
     }
 
