@@ -29,7 +29,7 @@ export default function Account() {
         </>
       ) : (
         <>
-          <p className='text-center border-b-secondary border-b'>{user.fullName}</p>
+          <p className='text-center border-b-secondary border-b text-sm'>{user.fullName}</p>
           <button
             onClick={handleSignOut}
             className='hover:text-secondary dark:hover:text-darkSecondary'>

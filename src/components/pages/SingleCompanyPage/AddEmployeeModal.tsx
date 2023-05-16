@@ -1,10 +1,11 @@
 import { addEmployee } from '@/api/addEmployee'
-import InputErrorMessage from '@/components/shared/InputErrorMessage'
+import Input from '@/components/shared/Input'
 import SaveCancel from '@/components/shared/SaveCancel'
 import { useOnClickOutside } from '@/hooks/useOnClickOutside'
 import { useAppSelector } from '@/redux/hooks'
 import { useRouter } from 'next/router'
 import React, { ChangeEvent, Dispatch, FormEvent, SetStateAction, useRef, useState } from 'react'
+import { addEmployeeFormFields } from './const'
 
 type AddEmployeeModalProps = {
   onOutsideClick: (event: Event) => void
@@ -12,16 +13,11 @@ type AddEmployeeModalProps = {
   show: boolean
 }
 
-type TAddEmployeeField = {
-  value: string
-  error: string
-}
-
 type TAddEmployeeFormFields = {
-  name: TAddEmployeeField
-  email: TAddEmployeeField
-  position: TAddEmployeeField
-  birthday: TAddEmployeeField
+  name: string
+  email: string
+  position: string
+  birthdate: string
 }
 
 export default function AddEmployeeModal({
@@ -40,7 +36,7 @@ export default function AddEmployeeModal({
   const handleChange = (e: ChangeEvent<HTMLInputElement>, field: string) => {
     setFormFields((prev: TAddEmployeeFormFields) => {
       const iterator = field as keyof TAddEmployeeFormFields
-      return { ...prev, [iterator]: { ...prev[iterator], value: e.target.value } }
+      return { ...prev, [iterator]: e.target.value }
     })
   }
 
@@ -52,11 +48,11 @@ export default function AddEmployeeModal({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     await addEmployee(
-      formFields.name.value,
+      formFields.name,
       cid as string,
-      formFields.birthday.value,
-      formFields.email.value,
-      formFields.position.value,
+      formFields.birthdate,
+      formFields.email,
+      formFields.position,
       userId!,
       userToken!
     )
@@ -70,45 +66,24 @@ export default function AddEmployeeModal({
       className='absolute top-0 bottom-0 left-0 right-0 bg-black bg-opacity-50 flex'>
       <div
         ref={modalBoxRef}
-        className='m-auto bg-primary flex flex-col gap-4 p-16 rounded-xl border-2 border-secondary items-center'>
-        <input
-          onChange={(e) => handleChange(e, 'name')}
-          value={formFields?.name?.value}
-          className='bg-primary pl-2 w-full border border-secondary rounded-md focus:outline-none'
-          placeholder='Name'
-          name='name'
-          required
-        />
-        {formFields?.email?.error ? (
-          <InputErrorMessage className='static' text={formFields?.email?.error} />
-        ) : null}
-        <input
-          value={formFields.position?.value}
-          onChange={(e) => handleChange(e, 'position')}
-          className='bg-primary pl-2 w-full border border-secondary rounded-md focus:outline-none'
-          placeholder='Position'
-          name='position'
-          required
-        />
-        <input
-          onChange={(e) => handleChange(e, 'email')}
-          value={formFields.email?.value}
-          className='bg-primary pl-2 w-full border border-secondary rounded-md focus:outline-none'
-          placeholder='Email'
-          name='email'
-          required
-          type={'email'}
-        />
-        <input
-          value={formFields.birthday?.value}
-          onChange={(e) => handleChange(e, 'birthday')}
-          className='bg-primary pl-2 w-full border border-secondary rounded-md focus:outline-none'
-          type={'date'}
-          placeholder='Enter employee name'
-          name='birthday'
-          required
-        />
-        <button type='submit'>
+        className='m-auto bg-primary flex flex-col gap-4 p-8  rounded-xl border-2 border-secondary min-w-[300px] md:min-w-[500px]'>
+        {addEmployeeFormFields.map(({ labelText, labelFor, name, id, type }) => {
+          return (
+            <div className='w-full' key={id}>
+              <Input
+                className='w-full'
+                id={id}
+                labelText={labelText}
+                labelFor={labelFor}
+                name={name}
+                type={type}
+                onChange={(e) => handleChange(e, name)}
+                isRequired
+              />
+            </div>
+          )
+        })}
+        <button className='m-auto' type='submit'>
           <SaveCancel handleCancel={handleCancel} />
         </button>
       </div>

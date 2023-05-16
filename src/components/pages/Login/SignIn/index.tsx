@@ -69,20 +69,22 @@ export default function SignIn() {
         onSubmit={handleSubmit}>
         {form.map((el) => {
           return (
-            <Input
-              key={el.id}
-              labelText={el.labelText}
-              labelFor={el.labelFor}
-              id={el.id}
-              name={el.name}
-              type={el.type}
-              isRequired={el.isRequired}
-              placeholder={el.placeholder}
-              className={
-                'bg-primary dark:bg-darkPrimary border-secondary dark:border-darkSecondary placeholder-gray-500 text-default dark:text-darkDefault focus:outline-none focus:ring-purple-500 focus:border-purple-500'
-              }
-              error={el.error}
-            />
+            <div key={el.id} className='my-5 flex flex-col relative'>
+              <Input
+                labelClassName={'sr-only'}
+                labelText={el.labelText}
+                labelFor={el.labelFor}
+                id={el.id}
+                name={el.name}
+                type={el.type}
+                isRequired={el.isRequired}
+                placeholder={el.placeholder}
+                className={
+                  'bg-primary dark:bg-darkPrimary border-secondary dark:border-darkSecondary placeholder-gray-500 text-default dark:text-darkDefault focus:outline-none focus:ring-purple-500 focus:border-purple-500'
+                }
+                error={el.error}
+              />
+            </div>
           )
         })}
         <button

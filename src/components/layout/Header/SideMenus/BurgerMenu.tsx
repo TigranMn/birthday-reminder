@@ -24,7 +24,7 @@ export default function BurgerMenu({ setMenu, name, menu }: BurgerMenuProps) {
       <div
         style={isOpened ? { left: 0 } : undefined}
         className={
-          'md:hidden fixed -left-full top-16 bottom-0 bg-primary dark:bg-darkPrimary w-44 transition-all duration-300 flex justify-center items-center'
+          'md:hidden fixed -left-full z-50 top-16 bottom-0 bg-primary dark:bg-darkPrimary w-44 transition-all duration-300 flex justify-center items-center'
         }>
         <ul className='flex flex-col gap-4 '>
           {navBarItems.map(({ href, exact, text, id }) => {

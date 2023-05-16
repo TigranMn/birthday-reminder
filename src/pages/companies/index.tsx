@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<{ companies: TCompany[] }> =
 
 export default function Companies({ companies }: { companies: TCompany[] }) {
   return (
-    <div className='dark:text-darkDefault text-default flex flex-wrap justify-between gap-8'>
+    <div className='dark:text-darkDefault text-default flex flex-wrap justify-center lg:justify-between gap-8 '>
       {companies.map((el) => {
         return (
           <Company key={el._id} name={el.name} employeesCount={el.employeesCount} _id={el._id} />

@@ -3,37 +3,40 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: Poppins;
-    src: url('../../public/fonts/Poppins-Regular.ttf');
+  font-family: Poppins;
+  src: url('../../public/fonts/Poppins-Regular.ttf');
 }
 
 @layer base {
-    * {
-        box-sizing: border-box;
-    }
-    html {
-        height: 100%;
-    }
-    body {
-        font-family: Poppins, sans-serif;
-        font-size: 16px;
-        line-height: 26px;
-        font-weight: 400, 600;
-        letter-spacing: 0;
-        height: 100%;
-    }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    height: 100%;
+  }
+  body {
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400, 600;
+    letter-spacing: 0;
+    height: 100%;
+  }
 
-    ul {
-        list-style: none;
-    }
-    svg {
-        fill: currentColor;
-    }
-    .lnr {
-        display: inline-block;
-        fill: currentColor;
-        width: 1em;
-        height: 1em;
-        vertical-align: -0.05em;
-    }
+  ul {
+    list-style: none;
+  }
+  svg {
+    fill: currentColor;
+  }
+  .lnr {
+    display: inline-block;
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.05em;
+  }
+  input::-webkit-calendar-picker-indicator {
+    display: none;
+  }
 }
