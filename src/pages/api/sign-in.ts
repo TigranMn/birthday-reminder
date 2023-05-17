@@ -19,7 +19,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...finalUser } = user._doc
-
     res.status(200).json({
       name: finalUser.fullName,
       token: token,

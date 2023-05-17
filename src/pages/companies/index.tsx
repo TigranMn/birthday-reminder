@@ -4,6 +4,7 @@ import React from 'react'
 import { GetServerSideProps } from 'next'
 import { TCompany } from '@/types/types'
 import { getSession } from 'next-auth/react'
+import process from 'process'
 import axios from 'axios'
 
 export const getServerSideProps: GetServerSideProps<{ companies: TCompany[] }> = async (
@@ -11,7 +12,7 @@ export const getServerSideProps: GetServerSideProps<{ companies: TCompany[] }> =
 ) => {
   const session = await getSession(context)
   if (session?.user) {
-    const res = await axios.get('http://localhost:3000/api/companies', {
+    const res = await axios.get(`${process.env.NEXTAUTH_URL}/api/companies`, {
       headers: { Authorization: session.user.token }
     })
     return {

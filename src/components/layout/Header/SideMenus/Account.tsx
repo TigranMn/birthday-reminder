@@ -15,7 +15,6 @@ export default function Account() {
     router.push('/sign-in')
     dispatch(clearUser())
   }
-
   return (
     <ul className='flex flex-col gap-4 p-2 min-w-[128px]'>
       {!user._id ? (
