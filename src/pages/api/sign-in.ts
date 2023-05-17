@@ -13,9 +13,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const user = await User.findOne({ email: req.body.username })
 
     if (!user) throw { status: 404, message: 'User not found' }
-
-    if (!bcrypt.compareSync(req.body.password, user.password))
-      throw { status: 400, message: 'Invalid password' }
+    const compare = await bcrypt.compare(req.body.password, user.password)
+    if (!compare) throw { status: 400, message: 'Invalid password' }
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
