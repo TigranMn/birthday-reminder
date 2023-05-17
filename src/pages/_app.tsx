@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
+import { Analytics } from '@vercel/analytics/react'
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,6 +17,7 @@ function App({ Component, pageProps }: AppProps) {
         <Wrapper>
           <Header />
           <Component {...pageProps} />
+          <Analytics />
           <ToastContainer theme='colored' />
         </Wrapper>
       </Provider>
