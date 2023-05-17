@@ -4,4 +4,4 @@ export JWT_SECRET=SUPERSECRETKEY
 # export NEXTAUTH_SECRET=anotherSuperSecrEtKey
 # export NEXTAUTH_URL="http://localhost:3000"
 
-yarn dev p
+yarn dev
