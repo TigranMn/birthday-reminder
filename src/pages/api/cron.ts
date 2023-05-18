@@ -12,6 +12,7 @@ type TBirthdayEmployee = TEmployee & { age: number }
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     await connectMongo()
+    const toNotify: any = {}
     const employees = (await Employee.find()) as TBirthdayEmployee[]
     const today = new Date()
     const day = today.getDate()
@@ -34,14 +35,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         fullName: string
       }
       const company = (await Company.findOne({ _id: birthday.companyId })) as TCompany
+      const notificationInfo = {
+        username: user.fullName,
+        jubilee: birthday.fullName,
+        jubileeAge: birthday.age,
+        jubileeCompany: company.name
+      }
+      type toNotifyKey = keyof typeof toNotify
+      const iterator: toNotifyKey = user.email
+      if (!toNotify[iterator]) {
+        toNotify[iterator] = [notificationInfo]
+      } else {
+        toNotify[iterator] = [...toNotify[iterator], notificationInfo]
+      }
+    }
+    for (const user of toNotify) {
+      const { username, jubileeName, companyName, age } = toNotify[user]
 
       const mailOptions = {
         from: `${process.env.MAIL_ORG}" <${process.env.MAIL_USERNAME}>`,
-        to: user.email,
+        to: user,
         subject: 'Birthday remainder',
-        text: `Hi, ${user.fullName}, today is the birthday of your employee ${birthday.fullName} that works in ${company.name}, he is now ${birthday.age} years old`,
-        html: `Hi, <b>${user.fullName}</b>, today is the birthday of your employee <b>${birthday.fullName}</b> that works in <b>${company.name}</b>, he is now <i>${birthday.age}</i> years old`
+        text: `Hi, ${username}, today is the birthday of your employee ${jubileeName} that works in ${companyName}, he is now ${age} years old`,
+        html: `Hi, <b>${username}</b>, today is the birthday of your employee <b>${jubileeName}</b> that works in <b>${companyName}</b>, he is now <i>${age}</i> years old`
       }
+
       await sendEmail(req, res, mailOptions)
     }
   } catch (e: any) {
