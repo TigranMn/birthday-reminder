@@ -52,14 +52,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     for (const user in toNotify) {
       for (const jubilee of toNotify[user]) {
-        const { username, jubileeName, companyName, age } = jubilee
+        const { username, jubilee: jubileeName, jubileeCompany, jubileeAge } = jubilee
 
         const mailOptions = {
           from: `${process.env.MAIL_ORG}" <${process.env.MAIL_USERNAME}>`,
           to: user,
           subject: 'Birthday remainder',
-          text: `Hi, ${username}, today is the birthday of your employee ${jubileeName} that works in ${companyName}, he is now ${age} years old`,
-          html: `Hi, <b>${username}</b>, today is the birthday of your employee <b>${jubileeName}</b> that works in <b>${companyName}</b>, he is now <i>${age}</i> years old`
+          text: `Hi, ${username}, today is the birthday of your employee ${jubileeName} that works in ${jubileeCompany}, he is now ${jubileeAge} years old`,
+          html: `Hi, <b>${username}</b>, today is the birthday of your employee <b>${jubileeName}</b> that works in <b>${jubileeCompany}</b>, he is now <i>${jubileeAge}</i> years old`
         }
 
         await sendEmail(req, res, mailOptions)
