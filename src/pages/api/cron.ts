@@ -62,6 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       await sendEmail(req, res, mailOptions)
     }
+    res.status(200).send('Emails has been sent')
   } catch (e: any) {
     res.status(500).json({ error: 1, message: e.message })
   }

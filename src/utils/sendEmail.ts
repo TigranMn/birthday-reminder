@@ -30,7 +30,6 @@ export const sendEmail = async (
       }
     })
     await transporter.sendMail(mailOptions)
-    res.status(200).send('Email has been sent')
   } catch (e: any) {
     res.status(500).json({ error: 1, message: e.message })
   }
