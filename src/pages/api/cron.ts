@@ -49,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         toNotify[iterator] = [...toNotify[iterator], notificationInfo]
       }
     }
-    for (const user of toNotify) {
+    for (const user in toNotify) {
       const { username, jubileeName, companyName, age } = toNotify[user]
 
       const mailOptions = {
