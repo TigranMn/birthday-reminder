@@ -42,7 +42,7 @@ export default function EmployeeCard({
     }
   }
 
-  const handleEdit = () => {}
+  // const handleEdit = () => {}
 
   return (
     <div className='rounded-lg flex flex-col gap-2 px-6 py-4 bg-primary cursor-pointer relative group hover:bg-opacity-50'>
@@ -57,12 +57,12 @@ export default function EmployeeCard({
         className='absolute -top-2 -left-2 text-red-400 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 hover:scale-110'
         wh='w-6 h-6'
       />
-      <Icon
+      {/* <Icon
         onClick={handleEdit}
         icon='lnr-pencil'
         className='absolute -top-2 -right-2 text-secondary opacity-0 group-hover:opacity-100 transition-all duration-500 hover:scale-110 '
         wh='w-6 h-6'
-      />
+      /> */}
     </div>
   )
 }
