@@ -14,6 +14,7 @@ export const sendEmail = async (
   res: NextApiResponse,
   mailOptions: TMailOptions
 ): Promise<void> => {
+  console.log(1)
   try {
     const transporter = nodemailer.createTransport({
       //@ts-ignore
