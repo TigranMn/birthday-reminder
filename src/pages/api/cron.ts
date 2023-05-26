@@ -61,7 +61,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           text: `Hi, ${username}, today is the birthday of your employee ${jubileeName} that works in ${jubileeCompany}, he is now ${jubileeAge} years old`,
           html: `Hi, <b>${username}</b>, today is the birthday of your employee <b>${jubileeName}</b> that works in <b>${jubileeCompany}</b>, he is now <i>${jubileeAge}</i> years old`
         }
-        console.log(mailOptions)
         await sendEmail(req, res, mailOptions)
       }
     }

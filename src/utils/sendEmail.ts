@@ -28,7 +28,9 @@ export const sendEmail = async (
         refreshToken: process.env.OAUTH_REFRESH_TOKEN
       }
     })
+    console.log('do')
     await transporter.sendMail(mailOptions)
+    console.log('posle')
   } catch (e: any) {
     console.log(e.message)
     res.status(500).json({ error: 1, message: e.message })
